@@ -47,3 +47,11 @@ class HFContentProvider : ContentProvider() {
     android:exported="false"
     />
 ```
+
+运行日志：
+```
+I/System.out: HFContentProvider onCreate : me.yifeiyuan.headfirstcontentprovider.App@beb970b
+I/System.out: before Application onCreate
+I/System.out: after Application onCreate
+I/System.out: MainActivity onCreate
+```

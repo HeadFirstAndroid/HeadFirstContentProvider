@@ -23,6 +23,13 @@
             android:name=".HFContentProvider"
             android:exported="false"
             />
+
+        <provider
+            android:authorities="${applicationId}.provider2"
+            android:name=".HFContentProvider"
+            android:exported="true"
+            />
+
     </application>
 
 </manifest>

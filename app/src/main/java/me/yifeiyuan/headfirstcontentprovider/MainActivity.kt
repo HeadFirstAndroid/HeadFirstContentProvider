@@ -4,6 +4,8 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.CancellationSignal
+import android.os.PersistableBundle
+import android.util.Log
 import me.yifeiyuan.adh.showcase.AdhShowcaseActivity
 import me.yifeiyuan.adh.showcase.AdhShowcaseItem
 
@@ -13,6 +15,9 @@ import me.yifeiyuan.adh.showcase.AdhShowcaseItem
  * content://authority/path/query
  *
  */
+
+private const val TAG = "MainActivity"
+
 class MainActivity : AdhShowcaseActivity() {
 
     val uri = Uri.parse("content://me.yifeiyuan.hf.contentprovider.provider")
@@ -22,27 +27,42 @@ class MainActivity : AdhShowcaseActivity() {
     }
     val cancellationSignal = CancellationSignal()
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//        println("MainActivity onCreate")
-//
-//        query(uri, columns, queryArgs, cancellationSignal)
-//    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun provideShowcaseItems(): List<AdhShowcaseItem> {
 
         return listOf(
 
+            /**
+             * D/MainActivity: query columnNames : name
+             * D/MainActivity: query columnNames : age
+             * D/MainActivity: query columnNames : engName
+             * D/MainActivity: query: 程序亦非猿 18 Fitz
+             * D/MainActivity: query: 路飞 15 Luffy
+             * D/MainActivity: query: 佐罗 16 Zoro
+             */
             createShowcaseItem("query") {
+                //ContextImpl$ApplicationContentResolver
+                val uri = Uri.parse("content://me.yifeiyuan.hf.contentprovider.provider")
                 val cursor = contentResolver.query(uri, null, null, null, null)
 
                 cursor?.let {
 
-                    while (!cursor.isLast) {
+                    for (columnName in cursor.columnNames) {
+                        Log.d(TAG, "query columnNames : $columnName")
+                    }
 
-                        cursor.moveToFirst()
+                    if (it.moveToFirst()) {
+                        do {
+                            val name = it.getString(it.getColumnIndex("name"))
+                            val age = it.getString(it.getColumnIndex("age"))
+                            val engName = it.getString(it.getColumnIndex("engName"))
 
+                            Log.d(TAG, "query: $name $age $engName")
+
+                        } while (it.moveToNext())
                     }
 
                 }
@@ -54,7 +74,7 @@ class MainActivity : AdhShowcaseActivity() {
             createShowcaseItem("delete") {},
             createShowcaseItem("insert") {},
 
-        )
+            )
     }
 
 

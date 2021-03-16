@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.UriMatcher
 import android.content.pm.ProviderInfo
 import android.database.Cursor
+import android.database.MatrixCursor
 import android.net.Uri
 import android.util.Log
 import me.yifeiyuan.adh.AdhLogger
@@ -23,23 +24,36 @@ class HFContentProvider : ContentProvider() {
         addURI("","",1)
     }
 
+    val columns = arrayOf("name","age","engName")
+
     override fun onCreate(): Boolean {
         Log.d(TAG, "onCreate() called: $context")
         return false
     }
 
+    /**
+     *
+     */
     override fun query(
         uri: Uri,
         projection: Array<out String>?,
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?
-    ): Cursor? {
+    ): Cursor {
+
         Log.d(
             TAG,
             "query() called with: uri = $uri, projection = $projection, selection = $selection, selectionArgs = $selectionArgs, sortOrder = $sortOrder"
         )
-        return null
+
+        val cursor = MatrixCursor(columns)
+
+        cursor.addRow(arrayOf("程序亦非猿","18","Fitz"))
+        cursor.addRow(arrayOf("路飞","15","Luffy"))
+        cursor.addRow(arrayOf("佐罗","16","Zoro"))
+
+        return cursor
     }
 
     override fun getType(uri: Uri): String? {
@@ -57,7 +71,7 @@ class HFContentProvider : ContentProvider() {
             TAG,
             "delete() called with: uri = $uri, selection = $selection, selectionArgs = $selectionArgs"
         )
-        return -1
+        return 0
     }
 
     override fun update(
@@ -70,6 +84,6 @@ class HFContentProvider : ContentProvider() {
             TAG,
             "update() called with: uri = $uri, values = $values, selection = $selection, selectionArgs = $selectionArgs"
         )
-        return -1
+        return 0
     }
 }

@@ -17,10 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        
+
         <provider
-            android:authorities="${applicationId}.hf.content.provider"
+            android:authorities="${applicationId}.provider"
             android:name=".HFContentProvider"
             android:exported="false"
             />

@@ -3,45 +3,73 @@ package me.yifeiyuan.headfirstcontentprovider
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
+import android.content.UriMatcher
 import android.content.pm.ProviderInfo
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
+import me.yifeiyuan.adh.AdhLogger
 import java.lang.NullPointerException
 
 /**
  * Created by 程序亦非猿 on 2020/10/15.
  */
+
+private const val TAG = "HFContentProvider"
+
 class HFContentProvider : ContentProvider() {
 
+    val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+        addURI("","",1)
+    }
+
     override fun onCreate(): Boolean {
-        println("HFContentProvider onCreate : $context")
+        Log.d(TAG, "onCreate() called: $context")
         return false
     }
 
     override fun query(
-        p0: Uri,
-        p1: Array<out String>?,
-        p2: String?,
-        p3: Array<out String>?,
-        p4: String?
+        uri: Uri,
+        projection: Array<out String>?,
+        selection: String?,
+        selectionArgs: Array<out String>?,
+        sortOrder: String?
     ): Cursor? {
+        Log.d(
+            TAG,
+            "query() called with: uri = $uri, projection = $projection, selection = $selection, selectionArgs = $selectionArgs, sortOrder = $sortOrder"
+        )
         return null
     }
 
-    override fun getType(p0: Uri): String? {
+    override fun getType(uri: Uri): String? {
+        Log.d(TAG, "getType() called with: uri = $uri")
         return null
     }
 
-    override fun insert(p0: Uri, p1: ContentValues?): Uri? {
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        Log.d(TAG, "insert() called with: uri = $uri, values = $values")
         return null
     }
 
-    override fun delete(p0: Uri, p1: String?, p2: Array<out String>?): Int {
-        return 0
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
+        Log.d(
+            TAG,
+            "delete() called with: uri = $uri, selection = $selection, selectionArgs = $selectionArgs"
+        )
+        return -1
     }
 
-    override fun update(p0: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
-        return 0
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<out String>?
+    ): Int {
+        Log.d(
+            TAG,
+            "update() called with: uri = $uri, values = $values, selection = $selection, selectionArgs = $selectionArgs"
+        )
+        return -1
     }
 }

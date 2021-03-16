@@ -1,7 +1,7 @@
 # HeadFirstContentProvider
 
 
-ContentProvider.onCreate 调用时机比 Application.onCreate 还要早。
+## 简易实现
 
 ```kotlin
 class HFContentProvider : ContentProvider() {
@@ -48,6 +48,8 @@ class HFContentProvider : ContentProvider() {
     />
 ```
 
+## 启动
+
 运行日志：
 ```
 I/System.out: HFContentProvider onCreate : me.yifeiyuan.headfirstcontentprovider.App@beb970b
@@ -55,3 +57,5 @@ I/System.out: before Application onCreate
 I/System.out: after Application onCreate
 I/System.out: MainActivity onCreate
 ```
+
+原来 ContentProvider.onCreate 调用时机比 Application.onCreate 还要早，难怪这么多 SDK 开始用 ContentProvider 来初始化。
